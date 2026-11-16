@@ -3,4 +3,5 @@
 export(baseflow)
 export(local_deficit)
 export(mean_index)
+export(run_topmodel)
 export(split_rain)
