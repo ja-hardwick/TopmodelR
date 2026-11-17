@@ -1,6 +1,6 @@
 #' run top model
 #'
-#' simulate catchment streamflow with TOPMODEL, tracking the mean saturation deficit and splitting rain into overland flow and infiltration, root zone and evaporation
+#' Simulates catchment streamflow with TOPMODEL, with root zone, unsaturated zone and saturated zone stores for each topographic index class, and channel routing
 #'
 #' @param rain value of rainfall in m each timestep
 #' @param topidx topographic index with two columns, index and area
@@ -11,9 +11,10 @@
 #' @param ETp potential evapotranspiration (m) used to calculate actual evapotranspiration
 #' @param Sr0 inital mean soil moisture deficit in the root zone (m)
 #' @param SrMax maximum mean soil moisture deficit in the root zone (m)
+#' @param h time-area histogram, the fraction of flow arriving after hour 0, default value = 1
 #' @returns returns data frame of baseflow (m), overland flow (m), total discharge (m) and catchment mean saturation deficit (m), actual evaporation and root zone deficit
 #' @export
-run_topmodel <- function(rain, topidx, qs0, lnTe, dt, m, ETp, Sr0, SrMax, td){
+run_topmodel <- function(rain, topidx, qs0, lnTe, dt, m, ETp, Sr0, SrMax, td, h = 1){
 
   n_steps <- length(rain)
   n_class <- nrow(topidx)
@@ -50,11 +51,14 @@ run_topmodel <- function(rain, topidx, qs0, lnTe, dt, m, ETp, Sr0, SrMax, td){
     suz[t] <- sum(Suz * topidx$area)
   }
 
+  q <- route_flow(gen = qb + qof, h = h)
+
   data.frame(qb = qb,
              qof = qof,
              qtot = qb + qof,
              sbar = sbar,
              ea = ea,
              srz = srz,
-             suz = suz)
+             suz = suz,
+             q = q)
 }
