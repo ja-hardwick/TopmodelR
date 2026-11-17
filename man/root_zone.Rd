@@ -20,7 +20,7 @@ A list with three elements, all in m per time step:
 \describe{
 \item{Srz}{Root zone deficit at the end of the time step.}
 \item{Ea}{Actual evapotranspiration.}
-\item{drain}{Water draining to the saturated zone.}
+\item{drain}{Water draining to the unsaturated zone.}
 }
 }
 \description{
