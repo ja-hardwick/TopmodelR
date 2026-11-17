@@ -12,9 +12,10 @@
 #' @param Sr0 inital mean soil moisture deficit in the root zone (m)
 #' @param SrMax maximum mean soil moisture deficit in the root zone (m)
 #' @param h time-area histogram, the fraction of flow arriving after hour 0, default value = 1
-#' @returns returns data frame of baseflow (m), overland flow (m), total discharge (m) and catchment mean saturation deficit (m), actual evaporation and root zone deficit
+#' @param k0 surface hydraulic condunctivity, infiltration capacity in m/h
+#' @returns returns data frame of baseflow (m), overland flow (m), total discharge (m) and catchment mean saturation deficit (m), actual evaporation and root zone deficit, the infiltration excess overland flow
 #' @export
-run_topmodel <- function(rain, topidx, qs0, lnTe, dt, m, ETp, Sr0, SrMax, td, h = 1){
+run_topmodel <- function(rain, topidx, qs0, lnTe, dt, m, ETp, Sr0, SrMax, td, h = 1, k0 = Inf){
 
   n_steps <- length(rain)
   n_class <- nrow(topidx)
@@ -28,13 +29,15 @@ run_topmodel <- function(rain, topidx, qs0, lnTe, dt, m, ETp, Sr0, SrMax, td, h 
   sbar    <- numeric(n_steps)
   srz     <- numeric(n_steps)
   suz     <- numeric(n_steps)
+  fex     <- numeric(n_steps)
 
   lambda <- mean_index(topidx = topidx)
   Sbar <- init_sbar(qs0 = qs0, lnTe = lnTe, lambda = lambda, m = m)
 
   for (t in 1:n_steps) {
     S     <- local_deficit(Sbar = Sbar, m = m, lambda = lambda, index = topidx$index)
-    rz <- root_zone(Srz = Srz, infil = rain[t], ETp = ETp[t], SrMax = SrMax)
+    ie <- infil_excess(rain = rain[t], k0 = k0, dt = dt)
+    rz <- root_zone(Srz = Srz, infil = ie$infil, ETp = ETp[t], SrMax = SrMax)
     uz <- unsat_zone(Suz = Suz, drain = rz$drain, S = S, td = td, dt = dt)
 
     recharge <- sum(uz$quz * topidx$area)
@@ -44,7 +47,9 @@ run_topmodel <- function(rain, topidx, qs0, lnTe, dt, m, ETp, Sr0, SrMax, td, h 
     Srz <- rz$Srz
     Suz <- uz$Suz
 
-    qof[t] <- sum(uz$excess * topidx$area)
+
+    fex[t] <- ie$fex
+    qof[t] <- sum(uz$excess * topidx$area) + ie$fex
     ea[t] <- sum(rz$Ea * topidx$area)
     sbar[t] <- Sbar
     srz[t] <- sum(Srz * topidx$area)
@@ -60,5 +65,6 @@ run_topmodel <- function(rain, topidx, qs0, lnTe, dt, m, ETp, Sr0, SrMax, td, h 
              ea = ea,
              srz = srz,
              suz = suz,
-             q = q)
+             q = q,
+             fex = fex)
 }

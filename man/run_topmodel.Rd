@@ -4,7 +4,20 @@
 \alias{run_topmodel}
 \title{run top model}
 \usage{
-run_topmodel(rain, topidx, qs0, lnTe, dt, m, ETp, Sr0, SrMax, td, h = 1)
+run_topmodel(
+  rain,
+  topidx,
+  qs0,
+  lnTe,
+  dt,
+  m,
+  ETp,
+  Sr0,
+  SrMax,
+  td,
+  h = 1,
+  k0 = Inf
+)
 }
 \arguments{
 \item{rain}{value of rainfall in m each timestep}
@@ -26,9 +39,11 @@ run_topmodel(rain, topidx, qs0, lnTe, dt, m, ETp, Sr0, SrMax, td, h = 1)
 \item{SrMax}{maximum mean soil moisture deficit in the root zone (m)}
 
 \item{h}{time-area histogram, the fraction of flow arriving after hour 0, default value = 1}
+
+\item{k0}{surface hydraulic condunctivity, infiltration capacity in m/h}
 }
 \value{
-returns data frame of baseflow (m), overland flow (m), total discharge (m) and catchment mean saturation deficit (m), actual evaporation and root zone deficit
+returns data frame of baseflow (m), overland flow (m), total discharge (m) and catchment mean saturation deficit (m), actual evaporation and root zone deficit, the infiltration excess overland flow
 }
 \description{
 Simulates catchment streamflow with TOPMODEL, with root zone, unsaturated zone and saturated zone stores for each topographic index class, and channel routing
