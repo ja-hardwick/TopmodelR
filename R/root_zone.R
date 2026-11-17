@@ -10,13 +10,13 @@
 #'   \describe{
 #'     \item{Srz}{Root zone deficit at the end of the time step.}
 #'     \item{Ea}{Actual evapotranspiration.}
-#'     \item{drain}{Water draining to the saturated zone.}
+#'     \item{drain}{Water draining to the unsaturated zone.}
 #'   }
 #' @export
 root_zone <- function(Srz, infil, ETp, SrMax){
   Srz <- Srz - infil
-  drain <- max(0, -Srz)
-  Srz <- max(0, Srz)
+  drain <- pmax(0, -Srz)
+  Srz <- pmax(0, Srz)
 
   Ea <- ETp * (1 - Srz/ SrMax)
   Srz <- Srz + Ea
