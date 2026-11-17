@@ -4,24 +4,30 @@
 \alias{run_topmodel}
 \title{run top model}
 \usage{
-run_topmodel(rain, topidx, Sbar0, lnTe, dt, m)
+run_topmodel(rain, topidx, Sbar0, lnTe, dt, m, ETp, Sr0, SrMax)
 }
 \arguments{
-\item{rain}{value of rainfall in meters each timestep}
+\item{rain}{value of rainfall in m each timestep}
 
 \item{topidx}{topographic index with two columns, index and area}
 
-\item{Sbar0}{initial mean soil moisture deficit, in meters}
+\item{Sbar0}{initial mean soil moisture deficit, in m}
 
 \item{lnTe}{log of the transmissivity of the saturated soil, ln(m^2/h)}
 
 \item{dt}{timestep (hours)}
 
-\item{m}{decay parameter for soil transmisitivty with deficit, in meters}
+\item{m}{decay parameter for soil transmisitivty with deficit, in m}
+
+\item{ETp}{potential evapotranspiration (m) used to calculate actual evapotranspiration}
+
+\item{Sr0}{inital mean soil moisture deficit in the root zone (m)}
+
+\item{SrMax}{maximum mean soil moisture deficit in the root zone (m)}
 }
 \value{
-returns data frame of baseflow (m), overland flow (m), total discharge (m) and local soil deficit (m)
+returns data frame of baseflow (m), overland flow (m), total discharge (m) and catchment mean saturation deficit (m), actual evaporation and root zone deficit
 }
 \description{
-simulate catchment streamflow with TOPMODEL, tracking the mean saturation deficit and splitting rain into overland flow and infiltration
+simulate catchment streamflow with TOPMODEL, tracking the mean saturation deficit and splitting rain into overland flow and infiltration, root zone and evaporation
 }

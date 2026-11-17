@@ -3,5 +3,6 @@
 export(baseflow)
 export(local_deficit)
 export(mean_index)
+export(root_zone)
 export(run_topmodel)
 export(split_rain)
