@@ -21,10 +21,10 @@ run_topmodel <- function(rain, topidx, Sbar0, lnTe, dt, m){
   lambda <- mean_index(topidx = topidx)
 
   for (t in 1:n_steps) {
-    S     <- local_deficit(Sbar = Sbar, m = m, lambda = lambda, index = topidx$index)                     # 1. local deficits from the current Sbar
+    S     <- local_deficit(Sbar = Sbar, m = m, lambda = lambda, index = topidx$index)
     split <- split_rain(rain = rain[t], S = S, area = topidx$area)
     qof[t] <- split$overland
-    qb[t]  <- baseflow(Sbar = Sbar, m = m, lnTe = lnTe, lambda = lambda, dt = dt)                    # 3. baseflow from the current Sbar
+    qb[t]  <- baseflow(Sbar = Sbar, m = m, lnTe = lnTe, lambda = lambda, dt = dt)
     Sbar   <- Sbar + qb[t] - split$infiltration
     sbar[t] <- Sbar
   }
