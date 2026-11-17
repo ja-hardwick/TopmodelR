@@ -1,3 +1,5 @@
 ^topmodelR\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+^dem\.tif$
+^dem_filled\.tif$

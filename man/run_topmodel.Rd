@@ -38,6 +38,8 @@ run_topmodel(
 
 \item{SrMax}{maximum mean soil moisture deficit in the root zone (m)}
 
+\item{td}{Unsaturated zone delay per metre of deficit (h/m).}
+
 \item{h}{time-area histogram, the fraction of flow arriving after hour 0, default value = 1}
 
 \item{k0}{surface hydraulic condunctivity, infiltration capacity in m/h}

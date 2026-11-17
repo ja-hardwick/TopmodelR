@@ -16,7 +16,7 @@
 make_classes <- function(ti, n = 16) {
   v      <- terra::values(ti, na.rm = TRUE)
   breaks <- seq(min(v), max(v), length.out = n + 1)
-  h      <- hist(v, breaks = breaks, plot = FALSE)
+  h      <- graphics::hist(v, breaks = breaks, plot = FALSE)
 
   data.frame(index = h$mids,
              area  = h$counts / sum(h$counts))

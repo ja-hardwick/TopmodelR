@@ -11,6 +11,7 @@
 #' @param ETp potential evapotranspiration (m) used to calculate actual evapotranspiration
 #' @param Sr0 inital mean soil moisture deficit in the root zone (m)
 #' @param SrMax maximum mean soil moisture deficit in the root zone (m)
+#' @param td Unsaturated zone delay per metre of deficit (h/m).
 #' @param h time-area histogram, the fraction of flow arriving after hour 0, default value = 1
 #' @param k0 surface hydraulic condunctivity, infiltration capacity in m/h
 #' @returns returns data frame of baseflow (m), overland flow (m), total discharge (m) and catchment mean saturation deficit (m), actual evaporation and root zone deficit, the infiltration excess overland flow
